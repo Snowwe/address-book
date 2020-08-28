@@ -1,3 +1,69 @@
-<p>
-  contact-form works!
-</p>
+<form [formGroup]="contactForm">
+  <table>
+    <tr>
+      <td>
+        <label for="surname"> Фамилия </label>
+      </td>
+      <td>
+        <label for="name"> Имя </label>
+      </td>
+      <td>
+        <label for="patronym"> Отчество </label>
+      </td>
+      <td>
+        <label for="phone"> Телефон </label>
+      </td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>
+        <input class="form-control"
+               type="text"
+               formControlName="surname"
+               placeholder="">
+      </td>
+      <td>
+        <input class="form-control"
+               type="text"
+               formControlName="name"
+               placeholder="">
+      </td>
+      <td>
+        <input class="form-control"
+               type="text"
+               formControlName="patronym"
+               placeholder="">
+      </td>
+      <td>
+        <input class="form-control"
+               type="tel"
+               formControlName="phone"
+               placeholder=""
+               prefix="+7 "
+               mask='(000) 000 - 00 - 00'>
+      </td>
+      <td>
+        <button class="btn-sm btn-success"
+                type="submit"
+                [disabled]="!contactForm.valid"
+                (click)="addContact()">
+          <span class="material-icons">add</span>
+        </button>
+      </td>
+    </tr>
+    <tr class="error-message">
+      <td>
+        <div *ngIf="isValid('surname')">Укажите фамилию</div>
+      </td>
+      <td></td>
+      <td></td>
+      <td>
+        <div *ngIf="isValid('phone')">
+          Укажите корректный номер телефона
+        </div>
+      </td>
+      <td></td>
+    </tr>
+  </table>
+
+</form>

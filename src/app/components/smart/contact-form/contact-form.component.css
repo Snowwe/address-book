@@ -1,0 +1,19 @@
+@import '~material-icons/iconfont/material-icons.css';
+@import '~bootstrap/dist/css/bootstrap.css';
+
+td {
+  padding-right: 14px;
+}
+
+.btn-sm {
+  padding: 4px 6px 0;
+}
+
+button:disabled {
+  opacity: 0.6;
+}
+
+.error-message {
+  height: 38px;
+  color: red;
+}
