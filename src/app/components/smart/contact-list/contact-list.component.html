@@ -1,3 +1,33 @@
-<p>
-  contact-list works!
-</p>
+<table class="table">
+  <thead>
+  <tr>
+    <th></th>
+    <th>{{ title.Surname }}</th>
+    <th>{{ title.Name }}</th>
+    <th>{{ title.Patronym }}</th>
+    <th>{{ title.Phone }}</th>
+    <th></th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let contact of contactList$ | async">
+    <td class="favorite-icon"
+        [ngClass]="contact.isFavorite ? 'is-favorite' : '' ">
+      <span class="material-icons"
+            (click)="isFavorite(contact.id)">
+        {{ contact.isFavorite ? 'star' : 'star_border' }}
+      </span>
+    </td>
+    <td>{{ contact.surname }}</td>
+    <td>{{ contact.name }}</td>
+    <td>{{ contact.patronym }}</td>
+    <td class="phone">
+      {{ contact.phone | mask: '+0 (000) 000 - 00 - 00' }}
+    </td>
+    <td class="delete-icon">
+      <span class="material-icons"
+            (click)="deleteContact(contact.id)">clear</span>
+    </td>
+  </tr>
+  </tbody>
+</table>

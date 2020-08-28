@@ -1,0 +1,27 @@
+@import '~material-icons/iconfont/material-icons.css';
+@import '~bootstrap/dist/css/bootstrap.css';
+
+table {
+  margin-top: 40px;
+}
+
+.favorite-icon {
+  width: 24px;
+}
+
+.is-favorite {
+  color: yellow;
+}
+
+.phone {
+  width: 180px;
+}
+
+.delete-icon {
+  width: 24px;
+  color: red;
+}
+
+.material-icons {
+  cursor: pointer;
+}
