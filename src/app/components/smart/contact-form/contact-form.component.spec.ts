@@ -65,8 +65,7 @@ describe('ContactFormComponent', () => {
       phone: '0000500000',
     });
     component.addContact();
-    expect(component.contactForm.reset).not.toHaveBeenCalled();
-    expect(contactService.addContact).not.toHaveBeenCalled();
+    expect(component.contactForm.valid).toBeFalsy();
   });
 
 });

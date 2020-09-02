@@ -7,12 +7,13 @@ describe('ContactService', () => {
   const contactListMock = CONTACTS;
   const contactMock: IContact = {
     id: null,
-    surname: 'Странный',
+    surname: 'Аааа',
     name: 'Менее',
     patronym: 'Какой-то',
     phone: '70000500000',
     isFavorite: false,
   };
+
   let contactService: ContactService;
 
   beforeEach(() => TestBed.configureTestingModule({}));
@@ -26,36 +27,192 @@ describe('ContactService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('getContactList should return contactList',
-    (done: DoneFn) => {
-      contactService.getContactList().subscribe(value => {
-        expect(value).toBe(contactListMock);
-        expect(value.length).toBe(3);
+  it('addContact should add contact to contactList', (done) => {
+    const contacts = contactListMock;
+    const contact = contactMock;
+    const result = [
+      {
+        id: 3,
+        surname: 'Вообще',
+        name: 'Не-представляю',
+        patronym: 'Кто-это',
+        phone: '70000200000',
+        isFavorite: false,
+      },
+      {
+        id: 1,
+        surname: 'Странный',
+        name: 'Менее',
+        patronym: 'Какой-то',
+        phone: '70000500000',
+        isFavorite: false,
+      },
+      {
+        id: 2,
+        surname: 'Чуть',
+        name: 'Менее',
+        patronym: 'Странный',
+        phone: '70000300000',
+        isFavorite: false,
+      },
+      {
+        id: 4,
+        surname: 'Аааа',
+        name: 'Менее',
+        patronym: 'Какой-то',
+        phone: '70000500000',
+        isFavorite: false,
+      },
+    ];
+
+    contactService.setContacts(contacts);
+    contactService.addContact(contact);
+
+    contactService.contactList$.subscribe(
+      value => {
+        expect(value).toEqual(result);
         done();
-      });
-    });
-
-  it('addContact should been called', () => {
-    spyOn(contactService, 'addContact').and.callFake(() => {
-    });
-    contactService.addContact(contactMock);
-
-    expect(contactService.addContact).toHaveBeenCalled();
+      }
+    );
   });
 
-  it('deleteContact should been called', () => {
-    spyOn(contactService, 'deleteContact').and.callFake(() => {
-    });
-    contactService.deleteContact(1);
+  it('deleteContact should delete contact', (done) => {
+    const contacts = contactListMock;
+    const result = [
+      {
+        id: 3,
+        surname: 'Вообще',
+        name: 'Не-представляю',
+        patronym: 'Кто-это',
+        phone: '70000200000',
+        isFavorite: false,
+      },
+      {
+        id: 1,
+        surname: 'Странный',
+        name: 'Менее',
+        patronym: 'Какой-то',
+        phone: '70000500000',
+        isFavorite: false,
+      },
+    ];
 
-    expect(contactService.deleteContact).toHaveBeenCalled();
+    contactService.setContacts(contacts);
+    contactService.deleteContact(2);
+
+    contactService.contactList$.subscribe(
+      value => {
+        expect(value).toEqual(result);
+        done();
+      }
+    );
   });
 
-  it('makeFavorite should been called', () => {
-    spyOn(contactService, 'makeFavorite').and.callFake(() => {
-    });
-    contactService.makeFavorite(contactMock.id);
+  it('makeFavorite should make Favorite', (done) => {
+    const contacts = [
+      {
+        id: 1,
+        surname: 'Странный',
+        name: 'Менее',
+        patronym: 'Какой-то',
+        phone: '70000500000',
+        isFavorite: false,
+      },
+    ];
 
-    expect(contactService.makeFavorite).toHaveBeenCalled();
+    contactService.setContacts(contacts);
+    contactService.makeFavorite(1);
+
+    contactService.contactList$.subscribe(
+      value => {
+        expect(value[0].isFavorite).toBeTruthy();
+        done();
+      }
+    );
+  });
+
+  it('makeFavorite should make not Favorite', (done) => {
+    const contacts = [
+      {
+        id: 1,
+        surname: 'Странный',
+        name: 'Менее',
+        patronym: 'Какой-то',
+        phone: '70000500000',
+        isFavorite: true,
+      },
+    ];
+
+    contactService.setContacts(contacts);
+    contactService.makeFavorite(1);
+
+    contactService.contactList$.subscribe(
+      value => {
+        expect(value[0].isFavorite).toBeFalsy();
+        done();
+      }
+    );
+  });
+
+  it('sortBy should sort contacts by isFavorite', (done) => {
+    const contacts = [
+      {
+        id: 1,
+        surname: 'Странный',
+        name: 'Менее',
+        patronym: 'Какой-то',
+        phone: '70000500000',
+        isFavorite: false,
+      },
+      {
+        id: 2,
+        surname: 'Вообще',
+        name: 'Не-представляю',
+        patronym: 'Кто-это',
+        phone: '70000200000',
+        isFavorite: true,
+      },
+    ];
+
+    contactService.setContacts(contacts);
+
+    contactService.contactList$.subscribe(
+      value => {
+        contactService.sortBy(value);
+        expect(value[0].id).toBe(2);
+        done();
+      }
+    );
+  });
+
+  it('sortBy should sort contacts by isFavorite', (done) => {
+    const contacts = [
+      {
+        id: 1,
+        surname: 'Странный',
+        name: 'Менее',
+        patronym: 'Какой-то',
+        phone: '70000500000',
+        isFavorite: true,
+      },
+      {
+        id: 2,
+        surname: 'Вообще',
+        name: 'Не-представляю',
+        patronym: 'Кто-это',
+        phone: '70000200000',
+        isFavorite: false,
+      },
+    ];
+
+    contactService.setContacts(contacts);
+
+    contactService.contactList$.subscribe(
+      value => {
+        contactService.sortBy(value);
+        expect(value[0].id).toBe(1);
+        done();
+      }
+    );
   });
 });

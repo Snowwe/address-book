@@ -2,7 +2,8 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { IContact } from '../../../interfaces/IContact';
 import { ContactService } from '../../../services/contact.service';
 import { Observable } from 'rxjs';
-import { Title } from '../../consts';
+import { CONTACTS, Title } from '../../consts';
+import { map } from "rxjs/operators";
 
 @Component({
   selector: 'app-contact-list',
@@ -18,9 +19,11 @@ export class ContactListComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.contactList$ = this.contactService.getContactList();
+    this.contactService.setContacts(CONTACTS);
+    this.contactList$ = this.contactService.contactList$.pipe(
+      map(contact => this.contactService.sortBy(contact))
+    );
   }
-
 
   public isFavorite(id: number): void {
     this.contactService.makeFavorite(id);
