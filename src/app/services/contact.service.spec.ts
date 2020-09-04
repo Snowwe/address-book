@@ -185,7 +185,7 @@ describe('ContactService', () => {
     );
   });
 
-  it('sortBy should sort contacts by isFavorite', (done) => {
+  it('sortBy should sort contacts by surname', (done) => {
     const contacts = [
       {
         id: 1,
@@ -193,7 +193,7 @@ describe('ContactService', () => {
         name: 'Менее',
         patronym: 'Какой-то',
         phone: '70000500000',
-        isFavorite: true,
+        isFavorite: false,
       },
       {
         id: 2,
@@ -210,7 +210,7 @@ describe('ContactService', () => {
     contactService.contactList$.subscribe(
       value => {
         contactService.sortBy(value);
-        expect(value[0].id).toBe(1);
+        expect(value[0].id).toBe(2);
         done();
       }
     );
